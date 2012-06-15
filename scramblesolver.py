@@ -23,7 +23,7 @@ class ScrambleSolver:
 		self.board = []
 
 		# Current solutions
-		# List of pairs: (sequence of positions, word)
+		# List of pairs: (sequence of positions, word, points)
 		self.solutions = []
 
 		# Solved or not
@@ -44,7 +44,7 @@ class ScrambleSolver:
 		self.solve()
 		solutions = self.show_solutions()
 		sorted_words = self.get_words(self.show_solutions_sorted_by_word_length())
-		points_words = self.show_solutions_sorted_by_points()
+		points_words = self.get_words(self.show_solutions_sorted_by_points(), [1,2])
 
 		print "\nSolutions: "
 		print solutions
@@ -136,10 +136,16 @@ class ScrambleSolver:
 		results.reverse()
 		return results
 
-	def get_words(self, solutions):
+	def get_words(self, solutions, params = [1]):
 		words = []
 		for tup in solutions:
-			words.append(tup[1])
+			if len(params) == 1:
+				words.append(tup[params[0]])
+			else:
+				values = []
+				for p in params:
+					values.append(tup[p])	
+				words.append(tuple(values))
 		return words
 
 	# Converts a given sequence of positions into the word.
