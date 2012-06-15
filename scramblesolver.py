@@ -11,9 +11,11 @@ class ScrambleSolver:
 		f.close()
 		
 		# Current board configuration
+		# List of 16 characters, where 'QU' is a character.
 		self.board = []
 
 		# Current solutions
+		# List of pairs: (sequence of positions, word)
 		self.solutions = []
 
 		# Solved or not

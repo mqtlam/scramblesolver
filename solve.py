@@ -2,6 +2,10 @@
 import scramblesolver
 import sys
 
+if len(sys.argv) != 2:
+	print 'Usage: ./scramblesolver abcdefghijklmnoqu'
+	sys.exit(1)
+
 board = sys.argv[1]
 print "Input: " + board
 
