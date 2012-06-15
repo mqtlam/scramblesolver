@@ -43,8 +43,8 @@ class ScrambleSolver:
 		self.set_board(board_list)
 		self.solve()
 		solutions = self.show_solutions()
-		sorted_words = self.get_words(self.show_solutions_sorted_by_word_length())
-		points_words = self.get_words(self.show_solutions_sorted_by_points(), [1,2])
+		sorted_words = self.format_solutions(self.show_solutions_sorted_by_word_length())
+		points_words = self.format_solutions(self.show_solutions_sorted_by_points(), [1,2])
 
 		print "\nSolutions: "
 		print solutions
@@ -137,7 +137,7 @@ class ScrambleSolver:
 		return results
 
 	# Returns a list of tuples of partial information from the solutions list.
-	def get_words(self, solutions, params = [1]):
+	def format_solutions(self, solutions, params = [1]):
 		words = []
 		for tup in solutions:
 			if len(params) == 1:
@@ -155,7 +155,7 @@ class ScrambleSolver:
 			print "Board not solved yet!"
 			return
 
-		print 'Content-Type: text/xml'
+		print 'Content-Type: application/xml'
 		print '<?xml version="1.0" encoding="utf-8"?>'
 		print '<solutions>'
 		for tup in self.solutions:
