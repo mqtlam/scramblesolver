@@ -2,12 +2,20 @@
 # listing all the possible solutions.
 
 class ScrambleSolver:
-	def __init__(self, dictionary = 'dictionary.txt'):
+	def __init__(self, dictionary = 'dictionary.txt', points = 'points.txt'):
 		# Load dictionary
 		f = open(dictionary, 'r')
 		self.dictionary = []
 		for line in f:
 			self.dictionary.append(line.strip())
+		f.close()
+
+		# Load points definitions
+		f = open(points, 'r')
+		self.points = {}
+		for line in f:
+			[letter, points] = line.strip().split(' ')
+			self.points[letter] = points
 		f.close()
 		
 		# Current board configuration
