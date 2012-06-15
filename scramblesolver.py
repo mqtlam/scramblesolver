@@ -27,11 +27,11 @@ class ScrambleSolver:
 		words = self.show_words()
 		sorted_words = self.show_words_sorted_by_length()
 
-		print "Solutions: "
+		print "\nSolutions: "
 		print solutions
-		print "Words: "
+		print "\nWords: "
 		print words
-		print "Sorted Words: "
+		print "\nSorted Words: "
 		print sorted_words
 
 	def set_board(self, board):
@@ -96,19 +96,15 @@ class ScrambleSolver:
 			words.append(self.sequence_to_word(seq))
 		return words
 
-	def show_words_sorted(self):
-		if not self.solved:
-			print "Board not solved yet!"
-			return
-
-		return list(set(self.show_words()))
-
 	def show_words_sorted_by_length(self):
 		if not self.solved:
 			print "Board not solved yet!"
 			return
 
-		return self.show_words_sorted().sort(lambda x,y: cmp(len(x), len(y)))
+		results = list(set(self.show_words()))
+		results.sort(lambda x,y: cmp(len(x), len(y)))
+		results.reverse()
+		return results
 
 	def sequence_to_word(self, sequence):
 		word = ''
