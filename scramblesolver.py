@@ -155,7 +155,7 @@ class ScrambleSolver:
 			print "Board not solved yet!"
 			return
 
-		print 'Content-Type: application/xml'
+		print 'Content-type: application/xml\n\n'
 		print '<?xml version="1.0" encoding="utf-8"?>'
 		print '<solutions>'
 		for tup in self.solutions:
