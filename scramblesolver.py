@@ -136,6 +136,7 @@ class ScrambleSolver:
 		results.reverse()
 		return results
 
+	# Returns a list of tuples of partial information from the solutions list.
 	def get_words(self, solutions, params = [1]):
 		words = []
 		for tup in solutions:
