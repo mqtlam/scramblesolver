@@ -149,6 +149,23 @@ class ScrambleSolver:
 				words.append(tuple(values))
 		return words
 
+	# Prints an xml format of the solutions for website processing.
+	def print_solutions_xml(self):
+		if not self.solved:
+			print "Board not solved yet!"
+			return
+
+		print 'Content-Type: text/xml'
+		print '<?xml version="1.0" encoding="utf-8"?>'
+		print '<solutions>'
+		for tup in self.solutions:
+			print '\t<answer>'
+			print '\t\t<sequence>' + str(tup[0]) + '</sequence>'
+			print '\t\t<word>' + tup[1] + '</word>'
+			print '\t\t<points>' + str(tup[2]) + '</points>'
+			print '\t</answer>'
+		print '</solutions>'
+
 	# Converts a given sequence of positions into the word.
 	def sequence_to_word(self, sequence):
 		word = ''
