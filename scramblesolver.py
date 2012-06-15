@@ -35,13 +35,10 @@ class ScrambleSolver:
 		self.set_board(board_list)
 		self.solve()
 		solutions = self.show_solutions()
-		words = self.show_words()
 		sorted_words = self.show_words_sorted_by_length()
 
 		print "\nSolutions: "
 		print solutions
-		print "\nWords: "
-		print words
 		print "\nSorted Words: "
 		print sorted_words
 
@@ -59,7 +56,7 @@ class ScrambleSolver:
 			words = self.starts_with(self.board[pos], self.dictionary)
 			self.solutions = self.solutions + self.solve_helper([pos], words)
 		self.solved = True
-		print "Done solving!"
+		print "\nDone solving!"
 
 	# Helper for solving the board.
 	def solve_helper(self, sequence, words):
