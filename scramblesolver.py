@@ -12,6 +12,28 @@ class ScrambleSolver:
 		self.solutions = []
 		self.solved = False
 
+	def fast_solve(self, board):
+		board = board.upper()
+		board_list = []
+		for char in board:
+			if char == 'Q':
+				board_list.append('QU')
+			elif len(board_list) == 0 or board_list[-1] != 'QU' or char != 'U':
+				board_list.append(char)
+
+		self.set_board(board_list)
+		self.solve()
+		solutions = self.show_solutions()
+		words = self.show_words()
+		sorted_words = self.show_words_sorted_by_length()
+
+		print "Solutions: "
+		print solutions
+		print "Words: "
+		print words
+		print "Sorted Words: "
+		print sorted_words
+
 	def set_board(self, board):
 		self.board = board
 		self.solutions = []
@@ -20,22 +42,28 @@ class ScrambleSolver:
 	def solve(self):
 		self.solutions = [] 
 		for pos in range(0, 15):
-			self.solutions.append(self.solve_helper([pos], self.board[pos], self.dictionary))
+			words = self.starts_with(self.board[pos], self.dictionary)
+			self.solutions = self.solutions + self.solve_helper([pos], words)
 		self.solved = True
+		print "Done solving!"
 
-	def solve_helper(self, sequence, word, words):
-		found = []
+	def solve_helper(self, sequence, words):
+		results = []
+
 		current = sequence[-1]
-		neighbors = self.get_neighbors(current)
-		for neighbor in neighbors:
-			new_word = word + self.board[neighbor]
-			new_words = self.starts_with(new_word, words)
-			if len(words) > 0:
-				found = self.solve_helper(sequence.append(neighbor), new_word, new_words)	
-		if word in self.dictionary:
-			return found.append(word)
-		else:
-			return found
+		if words != []:
+			neighbors = self.get_neighbors(current)
+			to_explore_list = [item for item in neighbors if item not in sequence]
+			for to_explore in to_explore_list:
+				new_sequence = sequence + [to_explore]
+				new_words = self.starts_with(self.sequence_to_word(new_sequence), words)
+				results = results + self.solve_helper(new_sequence, new_words)
+
+		word = self.sequence_to_word(sequence)
+		if word in words:
+			results.append(sequence)
+
+		return results
 
 	def get_neighbors(self, position):
 		neighbors = [[1,4,5], [0, 2, 4, 5, 6], [1, 3, 5, 6, 7], [2, 6, 7],
@@ -65,8 +93,26 @@ class ScrambleSolver:
 
 		words = []
 		for seq in self.solutions:
-			word = ''
-			for pos in seq:
-				word += self.board[pos]
-			words.append(word)
+			words.append(self.sequence_to_word(seq))
 		return words
+
+	def show_words_sorted(self):
+		if not self.solved:
+			print "Board not solved yet!"
+			return
+
+		return list(set(self.show_words()))
+
+	def show_words_sorted_by_length(self):
+		if not self.solved:
+			print "Board not solved yet!"
+			return
+
+		return self.show_words_sorted().sort(lambda x,y: cmp(len(x), len(y)))
+
+	def sequence_to_word(self, sequence):
+		word = ''
+		for pos in sequence:
+			word += self.board[pos]
+		return word
+
