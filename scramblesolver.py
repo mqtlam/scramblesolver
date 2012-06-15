@@ -3,15 +3,24 @@
 
 class ScrambleSolver:
 	def __init__(self, dictionary = 'dictionary.txt'):
+		# Load dictionary
 		f = open(dictionary, 'r')
 		self.dictionary = []
 		for line in f:
 			self.dictionary.append(line.strip())
 		f.close()
+		
+		# Current board configuration
 		self.board = []
+
+		# Current solutions
 		self.solutions = []
+
+		# Solved or not
 		self.solved = False
 
+	# Solves the board and displays the results. Accepts a string of characters.
+	# Note: the letter qu should be represented like that.
 	def fast_solve(self, board):
 		board = board.upper()
 		board_list = []
@@ -34,11 +43,14 @@ class ScrambleSolver:
 		print "\nSorted Words: "
 		print sorted_words
 
+	# Sets the board configuration. Accepts a list of characters/strings.
+	# Note: the letter 'QU' should be represented like that.
 	def set_board(self, board):
 		self.board = board
 		self.solutions = []
 		self.solved = False
 
+	# Solves the board only and stores the results.
 	def solve(self):
 		self.solutions = [] 
 		for pos in range(0, 15):
@@ -47,6 +59,7 @@ class ScrambleSolver:
 		self.solved = True
 		print "Done solving!"
 
+	# Helper for solving the board.
 	def solve_helper(self, sequence, words):
 		results = []
 
@@ -61,10 +74,11 @@ class ScrambleSolver:
 
 		word = self.sequence_to_word(sequence)
 		if word in words:
-			results.append(sequence)
+			results.append((sequence, word))
 
 		return results
 
+	# Return the list of neighbor positions given a position.
 	def get_neighbors(self, position):
 		neighbors = [[1,4,5], [0, 2, 4, 5, 6], [1, 3, 5, 6, 7], [2, 6, 7],
 				[0, 1, 5, 8, 9], [0, 1, 2, 4, 6, 8, 9, 10], [1, 2, 3, 5, 7, 9, 10, 11], [2, 3, 6, 10, 11],
@@ -72,6 +86,7 @@ class ScrambleSolver:
 				[8, 9, 13], [8, 9, 10, 12, 14], [9, 10, 11, 13, 15], [10, 11, 14]]
 		return neighbors[position] 
 
+	# Returns a list of words from a larger list of words that contain the substring.
 	def starts_with(self, substr, strings):
 		result = []
 		for string in strings:
@@ -79,6 +94,8 @@ class ScrambleSolver:
 				result.append(string)
 		return result
 
+	# Return the solutions.
+	# Solutions is a list of pairs of sequences and corresponding words.
 	def show_solutions(self):
 		if not self.solved:
 			print "Board not solved yet!"
@@ -86,16 +103,20 @@ class ScrambleSolver:
 
 		return self.solutions
 
+	# Returns the list of words.
+	# May return duplicates due to multiple solutions.
 	def show_words(self):
 		if not self.solved:
 			print "Board not solved yet!"
 			return
 
 		words = []
-		for seq in self.solutions:
-			words.append(self.sequence_to_word(seq))
+		for pair in self.solutions:
+			words.append(pair[1])
 		return words
 
+	# Returns the list of words sorted by length in descending order.
+	# No duplicates returned.
 	def show_words_sorted_by_length(self):
 		if not self.solved:
 			print "Board not solved yet!"
@@ -106,6 +127,7 @@ class ScrambleSolver:
 		results.reverse()
 		return results
 
+	# Converts a given sequence of positions into the word.
 	def sequence_to_word(self, sequence):
 		word = ''
 		for pos in sequence:
