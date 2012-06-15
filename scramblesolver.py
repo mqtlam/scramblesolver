@@ -15,7 +15,7 @@ class ScrambleSolver:
 		self.points = {}
 		for line in f:
 			[letter, points] = line.strip().split(' ')
-			self.points[letter] = points
+			self.points[letter] = int(points)
 		f.close()
 		
 		# Current board configuration
@@ -43,12 +43,15 @@ class ScrambleSolver:
 		self.set_board(board_list)
 		self.solve()
 		solutions = self.show_solutions()
-		sorted_words = self.show_words_sorted_by_length()
+		sorted_words = self.get_words(self.show_solutions_sorted_by_word_length())
+		points_words = self.show_solutions_sorted_by_points()
 
 		print "\nSolutions: "
 		print solutions
 		print "\nSorted Words: "
 		print sorted_words
+		print "\nSorted by Points: "
+		print points_words
 
 	# Sets the board configuration. Accepts a list of characters/strings.
 	# Note: the letter 'QU' should be represented like that.
@@ -81,7 +84,7 @@ class ScrambleSolver:
 
 		word = self.sequence_to_word(sequence)
 		if word in words:
-			results.append((sequence, word))
+			results.append((sequence, word, self.compute_points(sequence)))
 
 		return results
 
@@ -110,29 +113,34 @@ class ScrambleSolver:
 
 		return self.solutions
 
-	# Returns the list of words.
-	# May return duplicates due to multiple solutions.
-	def show_words(self):
-		if not self.solved:
-			print "Board not solved yet!"
-			return
-
-		words = []
-		for pair in self.solutions:
-			words.append(pair[1])
-		return words
-
 	# Returns the list of words sorted by length in descending order.
 	# No duplicates returned.
-	def show_words_sorted_by_length(self):
+	def show_solutions_sorted_by_word_length(self):
 		if not self.solved:
 			print "Board not solved yet!"
 			return
 
-		results = list(set(self.show_words()))
-		results.sort(lambda x,y: cmp(len(x), len(y)))
+		results = self.solutions
+		results.sort(lambda x,y: cmp(len(x[1]), len(y[1])))
 		results.reverse()
 		return results
+
+	# Returns the list of words sorted by point value in descending order.
+	def show_solutions_sorted_by_points(self):
+		if not self.solved:
+			print "Board not solved yet!"
+			return
+
+		results = self.solutions
+		results.sort(lambda x,y: cmp(x[2], y[2]))
+		results.reverse()
+		return results
+
+	def get_words(self, solutions):
+		words = []
+		for tup in solutions:
+			words.append(tup[1])
+		return words
 
 	# Converts a given sequence of positions into the word.
 	def sequence_to_word(self, sequence):
@@ -141,3 +149,9 @@ class ScrambleSolver:
 			word += self.board[pos]
 		return word
 
+	# Computes the points of a word.
+	def compute_points(self, sequence):
+		points = 0
+		for pos in sequence:
+			points += self.points[self.board[pos]]
+		return points
