@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 # ScrambleSolver solves a Scramble board configuration by 
 # listing all the possible solutions.
 
