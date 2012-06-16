@@ -2,7 +2,7 @@
 import sys
 
 class ScrambleSolver:
-	"""ScrambleSolver solves a Scramble board configuration by 
+	"""ScrambleSolver solves a Scramble With Friends board configuration by 
 	listing all the possible solutions."""
 
 	def __init__(self, dictionary = 'dictionary.txt', points = 'points.txt'):
