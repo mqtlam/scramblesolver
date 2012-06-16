@@ -31,7 +31,7 @@ class ScrambleSolver:
 		# Solved or not
 		self.solved = False
 
-	def fast_solve(self, board):
+	def fast_solve(self, board, special = '0000000000000000'):
 		"""Solves the board and displays the results. Accepts a string of characters.
 		Note: the letter qu should be represented like that."""
 		board = board.upper()
@@ -42,7 +42,11 @@ class ScrambleSolver:
 			elif len(board_list) == 0 or board_list[-1] != 'QU' or char != 'U':
 				board_list.append(char)
 
-		self.set_board(board_list)
+		special_list = []
+		for char in special:
+			special_list.append(char)
+
+		self.set_board(board_list, special_list)
 		self.solve()
 		solutions = self.show_solutions()
 		sorted_words = self.format_solutions(self.show_solutions_sorted_by_word_length())
@@ -55,10 +59,11 @@ class ScrambleSolver:
 		print "\nSorted by Points: "
 		print points_words
 
-	def set_board(self, board):
+	def set_board(self, board, special = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]):
 		"""Sets the board configuration. Accepts a list of characters/strings.
 		Note: the letter 'QU' should be represented like that."""
 		self.board = board
+		self.special = special
 		self.solutions = []
 		self.solved = False
 
@@ -177,7 +182,31 @@ class ScrambleSolver:
 
 	def compute_points(self, sequence):
 		"""Computes the points of a word."""
+		DEFAULT = '0'
+		DOUBLE_LETTER = '1'
+		DOUBLE_WORD = '2'
+		TRIPLE_LETTER = '3'
+		TRIPLE_WORD = '4'
+
 		points = 0
+		double_words = 0
+		triple_words = 0
 		for pos in sequence:
-			points += self.points[self.board[pos]]
+			multiply_factor = 1
+			if self.special[pos] == DOUBLE_LETTER:
+				multiply_factor = 2
+			elif self.special[pos] == TRIPLE_LETTER:
+				multiply_factor = 3
+			elif self.special[pos] == DOUBLE_WORD:
+				double_words += 1
+			elif self.special[pos] == TRIPLE_WORD:
+				triple_words += 1
+
+			points += multiply_factor * self.points[self.board[pos]]
+
+		for i in range(0, double_words):
+			points = 2*points
+		for i in range(0, triple_words):
+			points = 3*points
+		
 		return points
