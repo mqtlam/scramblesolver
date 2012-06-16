@@ -117,18 +117,6 @@ class ScrambleSolver:
 
 		return self.solutions
 
-	def show_solutions_sorted_by_word_length(self):
-		"""Returns the list of words sorted by length in descending order.
-		No duplicates returned."""
-		if not self.solved:
-			print "Board not solved yet!"
-			return
-
-		results = self.solutions
-		results.sort(lambda x,y: cmp(len(x[1]), len(y[1])))
-		results.reverse()
-		return results
-
 	def show_solutions_sorted_by_points(self):
 		"""Returns the list of words sorted by point value in descending order."""
 		if not self.solved:
