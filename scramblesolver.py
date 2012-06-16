@@ -112,7 +112,7 @@ class ScrambleSolver:
 		"""Return the solutions.
 		Solutions is a list of pairs of sequences and corresponding words."""
 		if not self.solved:
-			print >> sys.stderr, "Board not solved yet!"
+			print >> sys.stderr, "Board not yet solved!"
 			return
 
 		return self.solutions
@@ -120,7 +120,7 @@ class ScrambleSolver:
 	def show_solutions_sorted_by_points(self):
 		"""Returns the list of words sorted by point value in descending order."""
 		if not self.solved:
-			print >> sys.stderr, "Board not solved yet!"
+			print >> sys.stderr, "Board not yet solved!"
 			return
 
 		results = self.solutions
@@ -144,7 +144,7 @@ class ScrambleSolver:
 	def print_solutions_xml(self):
 		"""Prints an xml format of the solutions for website processing."""
 		if not self.solved:
-			print >> sys.stderr, "Board not solved yet!"
+			print >> sys.stderr, "Board not yet solved!"
 			return
 
 		print 'Content-type: application/xml\n\n'
