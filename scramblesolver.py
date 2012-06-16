@@ -49,13 +49,10 @@ class ScrambleSolver:
 		self.set_board(board_list, special_list)
 		self.solve()
 		solutions = self.show_solutions()
-		sorted_words = self.format_solutions(self.show_solutions_sorted_by_word_length())
 		points_words = self.format_solutions(self.show_solutions_sorted_by_points(), [1,2])
 
 		print "\nSolutions: "
 		print solutions
-		print "\nSorted Words: "
-		print sorted_words
 		print "\nSorted by Points: "
 		print points_words
 
