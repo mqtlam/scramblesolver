@@ -11,7 +11,5 @@ special = '0000000000000000'
 if len(sys.argv) > 1:
 	special = sys.argv[2]
 
-print "Input: " + board
-
 s = scramblesolver.ScrambleSolver()
 s.fast_solve(board, special)

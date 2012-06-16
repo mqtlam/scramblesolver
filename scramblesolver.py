@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+import sys
 
 class ScrambleSolver:
 	"""ScrambleSolver solves a Scramble board configuration by 
@@ -71,7 +72,6 @@ class ScrambleSolver:
 			words = self.starts_with(self.board[pos], self.dictionary)
 			self.solutions = self.solutions + self.solve_helper([pos], words)
 		self.solved = True
-		print "\nDone solving!"
 
 	def solve_helper(self, sequence, words):
 		"""Helper for solving the board."""
@@ -112,7 +112,7 @@ class ScrambleSolver:
 		"""Return the solutions.
 		Solutions is a list of pairs of sequences and corresponding words."""
 		if not self.solved:
-			print "Board not solved yet!"
+			print >> sys.stderr, "Board not solved yet!"
 			return
 
 		return self.solutions
@@ -120,7 +120,7 @@ class ScrambleSolver:
 	def show_solutions_sorted_by_points(self):
 		"""Returns the list of words sorted by point value in descending order."""
 		if not self.solved:
-			print "Board not solved yet!"
+			print >> sys.stderr, "Board not solved yet!"
 			return
 
 		results = self.solutions
@@ -144,7 +144,7 @@ class ScrambleSolver:
 	def print_solutions_xml(self):
 		"""Prints an xml format of the solutions for website processing."""
 		if not self.solved:
-			print "Board not solved yet!"
+			print >> sys.stderr, "Board not solved yet!"
 			return
 
 		print 'Content-type: application/xml\n\n'
